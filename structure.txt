@@ -1,0 +1,12 @@
+./
+./tasks.py
+./normalize.py
+./README.md
+./.gitignore
+./app.py
+./process.py
+./init.py
+./load.py
+./structure.txt
+./brd.txt
+public_data/
