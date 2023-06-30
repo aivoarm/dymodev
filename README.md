@@ -1,4 +1,4 @@
-building with chat GPT
+Building with chat GPT
 
 Imagine you are a developer given requirements to build an application that can use secure ftp connection for data exchange, have capability to read data structured and semi structured data , load into SQLite tables, normalize data, have ability to merge tables  , perform calculations, give output as downloadable reports, have ability to configure business rules and apply them during etl. also want the ui be modern , simple and elegant  . 
 Application Requirements:
