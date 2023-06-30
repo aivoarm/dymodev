@@ -29,7 +29,8 @@ ignored_patterns = [
     '*.vscode',
     '__pycache__',
     'myenv',
-    'data*'
+    'data*',
+    '.git'
 ]
 
 project_directory = os.path.dirname(os.path.abspath(__file__))

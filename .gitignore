@@ -1,6 +1,6 @@
 # Ignore compiled Python files
 *.pyc
-*myenv/
+myenv/
 data/
 instance/
 *.log

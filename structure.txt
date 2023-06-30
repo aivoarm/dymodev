@@ -10,3 +10,5 @@
 ./structure.txt
 ./brd.txt
 public_data/
+templates/
+templates/index.html
