@@ -1,35 +1,17 @@
 # Ignore compiled Python files
 *.pyc
 
-# Ignore the virtual environment folder
-menv/
+myenv/
 
-# Ignore the data folder
 data/
-
-# Ignore the Flask instance folder (if applicable)
 instance/
-
-# Ignore any logs generated
 *.log
-
-# Ignore database files (if applicable)
 *.db
-
-# Ignore generated static files (CSS, JS, etc.)
 /static/
-
-# Ignore generated media files (uploads, user-generated content, etc.)
 /media/
-
-# Ignore the environment file (if you have one)
 .env
-
-# Ignore IDE-specific files and folders (modify as needed)
 .vscode/
 .idea/
-
-# Ignore any other files or folders specific to your project
-
-# Ignore sensitive or private information (API keys, secret keys, etc.)
 secret.txt
+
+
