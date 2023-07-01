@@ -7,4 +7,4 @@ subprocess.run(['git', 'add', '.'])
 subprocess.run(['git', 'commit', '-m', 'update'])
 
 # Run 'git push remote main' command
-subprocess.run(['git', 'push', 'remote', 'main'])
+subprocess.run(['git', 'push', 'origin', 'main'])
