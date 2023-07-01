@@ -1,6 +1,8 @@
 # Ignore compiled Python files
 *.pyc
 myenv/
+venv/
+__pycache__/
 data/
 instance/
 *.log
