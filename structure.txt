@@ -1,5 +1,6 @@
 ./1.brd.py
 ./normalize.py
+./pushtogithub.py
 ./app.py
 ./process.py
 ./init.py

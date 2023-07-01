@@ -73,6 +73,21 @@ def normalize_data(data, file_format):
 
 ```
 
+## ./pushtogithub.py
+
+```python
+import subprocess
+
+# Run 'git add .' command
+subprocess.run(['git', 'add', '.'])
+
+# Run 'git commit -m "update"' command
+subprocess.run(['git', 'commit', '-m', 'update'])
+
+# Run 'git push remote main' command
+subprocess.run(['git', 'push', 'origin', 'main'])
+```
+
 ## ./app.py
 
 ```python
@@ -148,6 +163,13 @@ def delete_file(filename):
 def init():
     # Run the other Python file using subprocess
     subprocess.call(['python', 'init.py'])
+    return redirect('/')
+
+
+@app.route('/push-git')
+def pushgit():
+    # Run the other Python file using subprocess
+    subprocess.call(['python', 'pushtogithub.py'])
     return redirect('/')
 
 @app.route('/load')
@@ -436,6 +458,8 @@ def cleanup_database():
 
         <button class="btn btn-primary" id="load-data">Load Data</button>
         <button class="btn btn-primary" id="run-init">Run /init</button>
+        <button class="btn btn-primary" id="push-git">push to github</button>
+
 
         <div class="container">
             <table id="data-table">
@@ -509,7 +533,16 @@ def cleanup_database():
                         console.error('Request failed:', error);
                     });
             });
-
+          // push to git
+          $('#push-git').on('click', function () {
+                $.get('/push-git')
+                    .done(function () {
+                        console.log('Request successful');
+                    })
+                    .fail(function (xhr, status, error) {
+                        console.error('Request failed:', error);
+                    });
+            });
             // Normalize file
             $('.file-normalize').on('click', function () {
                 var filename = $(this).siblings('.file-name').text();
