@@ -1,12 +1,17 @@
 brd = """
 
-Install 
+Install /
 
 git clone https://github.com/aivoarm/dymodev.git
 cd dymodev
 python3 -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
+
+run/
+
+test: gunicorn wsgi:app 
+prod: gunicorn -b 0.0.0.0:5000 wsgi:app
 
 
 Building with chat GPT

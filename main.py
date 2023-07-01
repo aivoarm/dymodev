@@ -7,11 +7,11 @@ from normalize import normalize_data
 from load import load_data_into_database, cleanup_database
 import sqlite3
 
+
+
 app = Flask(__name__)
 
 # Define a route for the home page
-
-
 @app.route('/')
 def index():
     # Check if the database file exists
@@ -26,7 +26,7 @@ def index():
     cursor.execute('SELECT data FROM normalized_data')
     rows = cursor.fetchall()
     data_list = [row[0] for row in rows] if rows else []
-    
+
     # Close the connection
     conn.close()
 
@@ -36,7 +36,7 @@ def index():
     # Get a list of file names in the "data" folder
     data_folder = os.path.join(app.root_path, 'data')
     filenames = [filename for filename in os.listdir(data_folder) if os.path.isfile(os.path.join(data_folder, filename))]
-    
+
     # Pass the data to the template
     return render_template('index.html', data_list=data_list, filenames=filenames)
 
@@ -57,7 +57,6 @@ def upload_data():
     # Redirect to the home page
     return redirect('/')
 
-
 @app.route('/delete/<filename>', methods=['DELETE'])
 def delete_file(filename):
     file_path = os.path.join('data', filename)  # Path to the file in the "data" folder
@@ -74,7 +73,6 @@ def init():
     subprocess.call(['python', 'init.py'])
     return redirect('/')
 
-
 @app.route('/push-git')
 def pushgit():
     # Run the other Python file using subprocess
@@ -86,40 +84,37 @@ def load():
     cleanup_database()
     # Run the other Python file using subprocess
     load_data_into_database()
-   
+
     return redirect(url_for('index'))
-
-
 
 @app.route('/normalize', methods=['POST'])
 def normalize():
-        # Get a list of file names in the "data" folder
+    # Get a list of file names in the "data" folder
     data_folder = 'data'  # Change 'data' to the correct folder path if needed
     filenames = [filename for filename in os.listdir(data_folder) if os.path.isfile(os.path.join(data_folder, filename))]
 
     # Iterate through the files and insert data into the database
     for filename in filenames:
-        
         filename = request.form.get('filename')
 
     # Perform the normalization logic here using the filename
 
     # Example normalization code (replace with your actual implementation)
-        normalized_data = normalize_data(filename, file_format="csv")
+    normalized_data = normalize_data(filename, file_format="csv")
 
-        if normalized_data:
-            # Normalization successful
-            return jsonify({'success': True, 'normalized_data': normalized_data})
-        else:
-            # Normalization failed
-            return jsonify({'success': False})
+    if normalized_data:
+        # Normalization successful
+        return jsonify({'success': True, 'normalized_data': normalized_data})
+    else:
+        # Normalization failed
+        return jsonify({'success': False})
 
 def normalize_data(filename, file_format):
     # Implement your actual normalization logic here
     # You can use the provided `normalize_data` function in your question as a starting point
-    
+
     # Placeholder code that simply returns the filename for demonstration purposes
-    filename="n_"+filename
+    filename = "n_" + filename
     return filename
 
 if __name__ == '__main__':
