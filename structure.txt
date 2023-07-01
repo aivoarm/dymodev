@@ -1,9 +1,9 @@
 ./1.brd.py
 ./normalize.py
-./conf.py
 ./pushtogithub.py
-./app.py
 ./process.py
 ./init.py
 ./load.py
+./main.py
+./wsgi.py
 templates/index.html
