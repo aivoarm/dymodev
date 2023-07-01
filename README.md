@@ -243,20 +243,43 @@ def cleanup_database():
 
 ```python
 from flask import Flask, request, jsonify, render_template, redirect, url_for
+from flask_login import LoginManager, login_user, logout_user, login_required
 from werkzeug.utils import secure_filename
 import os
 import subprocess
-
-from normalize import normalize_data
-from load import load_data_into_database, cleanup_database
 import sqlite3
 
-
-
 app = Flask(__name__)
+app.secret_key = 'asdasdsd9127312b9sy1s1021102¡'  # Set a secret key for session management
+login_manager = LoginManager(app)
 
-# Define a route for the home page
+@login_manager.user_loader
+def load_user(user_id):
+    # Load and return the User object based on the user_id
+    from models import User
+    return User.query.get(int(user_id))
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+        user = User.query.filter_by(username=username).first()
+        if user and user.password == password:
+            login_user(user)
+            return redirect(url_for('index'))
+        else:
+            return 'Invalid username or password'
+    return render_template('login.html')
+
+@app.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    return redirect(url_for('login'))
+
 @app.route('/')
+#@login_required
 def index():
     # Check if the database file exists
     if not os.path.exists('database.db'):
@@ -338,28 +361,26 @@ def normalize():
     filenames = [filename for filename in os.listdir(data_folder) if os.path.isfile(os.path.join(data_folder, filename))]
 
     # Iterate through the files and insert data into the database
-    for filename in filenames:
-        filename = request.form.get('filename')
+    for current_filename in filenames:
+        # Perform the normalization logic here using the current_filename
 
-    # Perform the normalization logic here using the filename
+        # Example normalization code (replace with your actual implementation)
+        normalized_data = normalize_data(current_filename, file_format="csv")
 
-    # Example normalization code (replace with your actual implementation)
-    normalized_data = normalize_data(filename, file_format="csv")
-
-    if normalized_data:
-        # Normalization successful
-        return jsonify({'success': True, 'normalized_data': normalized_data})
-    else:
-        # Normalization failed
-        return jsonify({'success': False})
+        if normalized_data:
+            # Normalization successful
+            return jsonify({'success': True, 'normalized_data': normalized_data})
+        else:
+            # Normalization failed
+            return jsonify({'success': False})
 
 def normalize_data(filename, file_format):
     # Implement your actual normalization logic here
     # You can use the provided `normalize_data` function in your question as a starting point
 
     # Placeholder code that simply returns the filename for demonstration purposes
-    filename = "n_" + filename
-    return filename
+    normalized_filename = "n_" + filename
+    return normalized_filename
 
 if __name__ == '__main__':
     app.run(debug=True)
@@ -626,5 +647,44 @@ if __name__ == "__main__":
 </body>
 
 </html>
+```
+
+## templates/login.html
+
+```python
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login</title>
+</head>
+<body>
+    <h1>Login</h1>
+    <form method="POST" action="/login">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required>
+        <br>
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required>
+        <br>
+        <input type="submit" value="Login">
+    </form>
+</body>
+</html>
+```
+
+## venv/models.py
+
+```python
+from flask_login import UserMixin
+from sqlalchemy import Column, Integer, String
+from sqlalchemy.ext.declarative import declarative_base
+
+Base = declarative_base()
+
+class User(Base, UserMixin):
+    __tablename__ = 'users'
+    id = Column(Integer, primary_key=True)
+    username = Column(String(50), unique=True)
+    password = Column(String(255))
 ```
 
