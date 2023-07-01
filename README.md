@@ -130,10 +130,10 @@ app = Flask(__name__)
 
 
 @app.route('/')
-def home():
+def index():
     # Check if the database file exists
     if not os.path.exists('database.db'):
-        return render_template('index.html', data_list=["data_list"], filenames=["placeholder   "])
+        return render_template('index.html', data_list=["a"], filenames=["b"])
 
     # Connect to the SQLite database
     conn = sqlite3.connect('database.db')
@@ -142,32 +142,34 @@ def home():
     # Retrieve data from the database
     cursor.execute('SELECT data FROM normalized_data')
     rows = cursor.fetchall()
-    data_list = [row[0] for row in rows]
-
+    data_list = [row[0] for row in rows] if rows else []
+    
     # Close the connection
     conn.close()
+
+    if not data_list:
+        return render_template('index.html', data_list=["a"], filenames=["b"])
 
     # Get a list of file names in the "data" folder
     data_folder = os.path.join(app.root_path, 'data')
     filenames = [filename for filename in os.listdir(data_folder) if os.path.isfile(os.path.join(data_folder, filename))]
+    
     # Pass the data to the template
     return render_template('index.html', data_list=data_list, filenames=filenames)
-
-# Define a route for receiving the FTP data
-@app.route('/', methods=['POST'])
-def index():
-    return jsonify({'message': 'Data uploaded successfully'})
 
 @app.route('/upload', methods=['POST'])
 def upload_data():
     uploaded_file = request.files['file']
     filename = secure_filename(uploaded_file.filename)
-    file_path = os.path.join('data', filename)  # Path to the "data" folder
+    folder_path = 'data'  # Path to the "data" folder
+    file_path = os.path.join(folder_path, filename)
+
+    # Create the "data" folder if it doesn't exist
+    if not os.path.exists(folder_path):
+        os.makedirs(folder_path)
 
     # Save the uploaded file to the "data" folder
     uploaded_file.save(file_path)
-
- 
 
     # Redirect to the home page
     return redirect('/')

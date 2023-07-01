@@ -13,7 +13,7 @@ app = Flask(__name__)
 
 
 @app.route('/')
-def home():
+def index():
     # Check if the database file exists
     if not os.path.exists('database.db'):
         return render_template('index.html', data_list=["a"], filenames=["b"])
