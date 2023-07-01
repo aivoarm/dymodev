@@ -64,6 +64,8 @@ def index():
     return render_template('index.html', data_list=data_list, filenames=filenames)
 
 @app.route('/upload', methods=['POST'])
+@login_required
+
 def upload_data():
     uploaded_file = request.files['file']
     filename = secure_filename(uploaded_file.filename)
@@ -81,6 +83,8 @@ def upload_data():
     return redirect('/')
 
 @app.route('/delete/<filename>', methods=['DELETE'])
+@login_required
+
 def delete_file(filename):
     file_path = os.path.join('data', filename)  # Path to the file in the "data" folder
 
@@ -91,18 +95,21 @@ def delete_file(filename):
         return jsonify({'message': 'File not found'})
 
 @app.route('/init')
+@login_required
 def init():
     # Run the other Python file using subprocess
     subprocess.call(['python', 'init.py'])
     return redirect('/')
 
 @app.route('/push-git')
+@login_required
 def pushgit():
     # Run the other Python file using subprocess
     subprocess.call(['python', 'pushtogithub.py'])
     return redirect('/')
 
 @app.route('/load')
+@login_required
 def load():
     cleanup_database()
     # Run the other Python file using subprocess
@@ -111,6 +118,7 @@ def load():
     return redirect(url_for('index'))
 
 @app.route('/normalize', methods=['POST'])
+@login_required
 def normalize():
     # Get a list of file names in the "data" folder
     data_folder = 'data'  # Change 'data' to the correct folder path if needed
