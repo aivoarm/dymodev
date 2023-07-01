@@ -1,3 +1,7 @@
+brd = """
+
+Building with chat GPT
+
 Imagine you are a developer given requirements to build an application that can use secure ftp connection for data exchange, have capability to read data structured and semi structured data , load into SQLite tables, normalize data, have ability to merge tables  , perform calculations, give output as downloadable reports, have ability to configure business rules and apply them during etl. also want the ui be modern , simple and elegant  . 
 Application Requirements:
 
@@ -31,4 +35,5 @@ Business rules could include data validation, transformation logic, data filteri
 Modern and Elegant UI:
 
 The application's user interface (UI) should have a modern, simple, and elegant design.
-The UI should provide an intuitive user experience, making it easy for users to navigate, configure, and interact with the application's features.
+The UI should provide an intuitive user experience, making it easy for users to navigate, configure, and interact 
+"""
