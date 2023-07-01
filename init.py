@@ -51,7 +51,7 @@ with open('structure.txt', 'r') as file:
 file_list = [line.strip() for line in lines]
 
 
-with open("details.md", "w") as file:
+with open("README.md", "w") as file:
     for file_path in file_list:
         with open(file_path, "r") as f:
             content = f.read()
